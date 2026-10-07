@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Los Seis Sombreros del Pensamiento</title>
+
+<style>
+
+/* =========================================================
+   CONFIGURACIÓN GENERAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+:root{
+    --azul:#2563eb;
+    --fondo:#f4f6f8;
+    --texto:#1f2937;
+    --gris:#64748b;
+    --blanco:#ffffff;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color:var(--texto);
+
+    background:
+        radial-gradient(
+            circle at top,
+            #ffffff 0%,
+            #eef2f7 55%,
+            #e5e9ee 100%
+        );
+}
+
+/* =========================================================
+   PANTALLAS
+========================================================= */
+
+.screen{
+    display:none;
+    min-height:100vh;
+    padding:30px;
+}
+
+.screen.active{
+    display:flex;
+}
+
+.container{
+    width:min(1180px,100%);
+    margin:auto;
+}
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
+button{
+    font:inherit;
+    cursor:pointer;
+}
+
+.primary,
+.secondary{
+
+    border:none;
+
+    border-radius:16px;
+
+    padding:
+        15px
+        25px;
+
+    font-weight:bold;
+
+    transition:
+        transform .2s,
+        box-shadow .2s;
+}
+
+.primary{
+
+    background:
+        var(--azul);
+
+    color:white;
+
+    box-shadow:
+        0 8px 20px
+        rgba(37,99,235,.25);
+}
+
+.secondary{
+
+    background:#e2e8f0;
+
+    color:#1e293b;
+}
+
+.primary:hover,
+.secondary:hover{
+
+    transform:
+        translateY(-2px);
+}
+
+/* =========================================================
+   PORTADA
+========================================================= */
+
+.hero{
+
+    text-align:center;
+
+    padding:
+        45px
+        20px;
+}
+
+.hero .emoji{
+
+    font-size:90px;
+
+    filter:
+        drop-shadow(
+            0 12px 10px
+            rgba(0,0,0,.15)
+        );
+}
+
+.hero h1{
+
+    font-size:
+        clamp(
+            2.3rem,
+            5vw,
+            4.5rem
+        );
+
+    margin:
+        15px 0 10px;
+}
+
+.subtitle{
+
+    font-size:1.15rem;
+
+    color:var(--gris);
+
+    max-width:760px;
+
+    margin:
+        0 auto 30px;
+
+    line-height:1.6;
+}
+
+/* =========================================================
+   ETIQUETA
+========================================================= */
+
+.badge{
+
+    display:inline-block;
+
+    background:#e0e7ff;
+
+    color:#3730a3;
+
+    padding:
+        7px 13px;
+
+    border-radius:50px;
+
+    font-size:.85rem;
+
+    font-weight:bold;
+}
+
+/* =========================================================
+   TARJETAS DE SOMBREROS
+========================================================= */
+
+.hats-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:20px;
+
+    margin:
+        30px 0;
+}
+
+.hat{
+
+    background:white;
+
+    border:
+        3px solid
+        transparent;
+
+    border-radius:24px;
+
+    padding:25px;
+
+    box-shadow:
+        0 12px 35px
+        rgba(15,23,42,.12);
+
+    text-align:left;
+
+    transition:
+        transform .25s,
+        border-color .25s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.hat:hover{
+
+    transform:
+        translateY(-6px);
+
+    border-color:
+        var(--hat);
+}
+
+.hat .icon{
+
+    font-size:60px;
+}
+
+.hat h3{
+
+    margin:
+        10px 0 6px;
+
+    font-size:1.35rem;
+}
+
+.hat p{
+
+    color:var(--gris);
+
+    line-height:1.5;
+}
+
+.hat.done{
+
+    opacity:.65;
+}
+
+.hat.done::after{
+
+    content:"✓";
+
+    position:absolute;
+
+    right:18px;
+
+    top:15px;
+
+    font-size:30px;
+
+    color:#16a34a;
+
+    font-weight:bold;
+}
+
+/* =========================================================
+   BARRA SUPERIOR
+========================================================= */
+
+.topbar{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:20px;
+}
+
+.progress-wrap{
+
+    background:#dbe2ea;
+
+    border-radius:50px;
+
+    height:12px;
+
+    flex:1;
+
+    overflow:hidden;
+}
+
+.progress{
+
+    height:100%;
+
+    width:16.66%;
+
+    background:
+        var(--azul);
+
+    transition:
+        width .4s;
+}
+
+.timer{
+
+    font-weight:bold;
+
+    background:white;
+
+    padding:
+        10px 15px;
+
+    border-radius:12px;
+
+    min-width:85px;
+
+    text-align:center;
+
+    box-shadow:
+        0 8px 20px
+        rgba(15,23,42,.10);
+}
+
+/* =========================================================
+   TARJETA DE ACTIVIDAD
+========================================================= */
+
+.activity-card{
+
+    background:white;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 12px 35px
+        rgba(15,23,42,.12);
+}
+
+.activity-head{
+
+    padding:30px;
+
+    color:white;
+
+}
+
+.hat-large{
+
+    font-size:75px;
+}
+
+.activity-head h2{
+
+    margin:
+        0 0 8px;
+
+    font-size:2rem;
+}
+
+.activity-head p{
+
+    margin:0;
+
+    font-size:1.05rem;
+}
+
+.activity-body{
+
+    padding:30px;
+}
+
+.situation{
+
+    background:#f8fafc;
+
+    border-left:
+        5px solid
+        var(--hat);
+
+    padding:20px;
+
+    border-radius:12px;
+
+    margin-bottom:25px;
+
+    line-height:1.6;
+}
+
+.question{
+
+    font-size:1.25rem;
+
+    font-weight:bold;
+
+    margin-bottom:12px;
+}
+
+textarea{
+
+    width:100%;
+
+    min-height:150px;
+
+    resize:vertical;
+
+    border:
+        2px solid
+        #dbe2ea;
+
+    border-radius:16px;
+
+    padding:16px;
+
+    outline:none;
+
+    font-size:1rem;
+
+    line-height:1.5;
+
+    transition:.2s;
+}
+
+textarea:focus{
+
+    border-color:
+        var(--hat);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(37,99,235,.08);
+}
+
+.actions{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    margin-top:20px;
+}
+
+/* =========================================================
+   CONCLUSIONES
+========================================================= */
+
+.final-card{
+
+    background:white;
+
+    border-radius:30px;
+
+    padding:35px;
+
+    box-shadow:
+        0 12px 35px
+        rgba(15,23,42,.12);
+}
+
+.summary-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:15px;
+
+    margin:
+        25px 0;
+}
+
+.summary{
+
+    background:#f8fafc;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    border-left:
+        6px solid
+        var(--hat);
+}
+
+.summary h3{
+
+    margin:
+        0 0 8px;
+}
+
+.summary p{
+
+    margin:0;
+
+    color:#475569;
+
+    line-height:1.5;
+
+    white-space:pre-wrap;
+}
+
+.action-box{
+
+    background:#eff6ff;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    margin-top:20px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:800px){
+
+    .hats-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .summary-grid{
+
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:560px){
+
+    .screen{
+
+        padding:15px;
+    }
+
+    .hats-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .topbar{
+
+        flex-wrap:wrap;
+    }
+
+    .progress-wrap{
+
+        order:3;
+
+        flex-basis:100%;
+    }
+
+    .actions{
+
+        flex-direction:column;
+    }
+
+    .actions button{
+
+        width:100%;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     PANTALLA DE INICIO
+===================================================== -->
+
+<section
+    id="start"
+    class="screen active"
+>
+
+<div class="container">
+
+<div class="hero">
+
+    <div class="emoji">
+        🎩
+    </div>
+
+    <span class="badge">
+        DINÁMICA INTERACTIVA
+    </span>
+
+    <h1>
+        Los Seis Sombreros para Pensar
+    </h1>
+
+    <p class="subtitle">
+
+        Analiza una situación desde seis perspectivas
+        diferentes: datos, emociones, riesgos,
+        beneficios, creatividad y acción.
+
+    </p>
+
+    <button
+        class="primary"
+        onclick="startActivity()"
+    >
+        Comenzar dinámica →
+    </button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SELECCIÓN DE SOMBREROS
+===================================================== -->
+
+<section
+    id="selection"
+    class="screen"
+>
+
+<div class="container">
+
+<div
+    class="hero"
+    style="padding:15px 0 20px"
+>
+
+    <h2>
+        Elige un sombrero
+    </h2>
+
+    <p class="subtitle">
+
+        Cada sombrero representa una forma
+        diferente de analizar la situación.
+
+    </p>
+
+</div>
+
+
+<div
+    id="hatGrid"
+    class="hats-grid"
+></div>
+
+
+<div style="text-align:center">
+
+<button
+    class="secondary"
+    onclick="resetActivity()"
+>
+    ↻ Reiniciar
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ACTIVIDAD
+===================================================== -->
+
+<section
+    id="activity"
+    class="screen"
+>
+
+<div class="container">
+
+
+<div class="topbar">
+
+    <span id="stepLabel">
+        Sombrero 1 de 6
+    </span>
+
+    <div class="progress-wrap">
+
+        <div
+            id="progress"
+            class="progress"
+        ></div>
+
+    </div>
+
+    <div
+        id="timer"
+        class="timer"
+    >
+        02:00
+    </div>
+
+</div>
+
+
+<div
+    id="activityCard"
+    class="activity-card"
+></div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CONCLUSIONES
+===================================================== -->
+
+<section
+    id="final"
+    class="screen"
+>
+
+<div class="container">
+
+<div class="final-card">
+
+
+<div style="text-align:center">
+
+    <div style="font-size:75px">
+        🎯
+    </div>
+
+    <span class="badge">
+        SOMBRERO AZUL · CONCLUSIÓN
+    </span>
+
+    <h2>
+        De las ideas a la acción
+    </h2>
+
+    <p class="subtitle">
+
+        Estas fueron las reflexiones obtenidas
+        durante la dinámica.
+
+    </p>
+
+</div>
+
+
+<div
+    id="summaryGrid"
+    class="summary-grid"
+></div>
+
+
+<div class="action-box">
+
+    <h3>
+        🎯 ¿Qué acción concreta proponemos?
+    </h3>
+
+    <p>
+
+        Escribe una acción que pueda llevarse
+        a la práctica para mejorar la situación
+        analizada.
+
+    </p>
+
+    <textarea
+        id="finalAction"
+        placeholder="Nuestra propuesta de acción es..."
+    ></textarea>
+
+</div>
+
+
+<div class="actions">
+
+<button
+    class="secondary"
+    onclick="goSelection()"
+>
+    ← Revisar sombreros
+</button>
+
+
+<button
+    class="primary"
+    onclick="finishActivity()"
+>
+    Finalizar actividad ✓
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<script>
+
+/* =========================================================
+   INFORMACIÓN DE LOS SEIS SOMBREROS
+========================================================= */
+
+const hats = [
+
+{
+    id:"white",
+
+    icon:"⚪",
+
+    name:"Blanco",
+
+    title:"Datos y hechos",
+
+    color:"#64748b",
+
+    desc:
+    "Observamos la situación de manera objetiva.",
+
+    question:
+    "¿Qué información, datos o hechos necesitamos conocer para comprender mejor esta situación?"
+},
+
+
+{
+    id:"red",
+
+    icon:"🔴",
+
+    name:"Rojo",
+
+    title:"Emociones",
+
+    color:"#dc2626",
+
+    desc:
+    "Expresamos sentimientos, percepciones e intuiciones.",
+
+    question:
+    "¿Qué emociones, sentimientos o intuiciones nos provoca esta situación?"
+},
+
+
+{
+    id:"black",
+
+    icon:"⚫",
+
+    name:"Negro",
+
+    title:"Riesgos y precauciones",
+
+    color:"#111827",
+
+    desc:
+    "Identificamos dificultades, riesgos y posibles problemas.",
+
+    question:
+    "¿Qué obstáculos, riesgos o consecuencias negativas debemos considerar?"
+},
+
+
+{
+    id:"yellow",
+
+    icon:"🟡",
+
+    name:"Amarillo",
+
+    title:"Beneficios y oportunidades",
+
+    color:"#ca8a04",
+
+    desc:
+    "Buscamos lo positivo y las oportunidades.",
+
+    question:
+    "¿Qué beneficios, oportunidades o aspectos positivos podemos encontrar?"
+},
+
+
+{
+    id:"green",
+
+    icon:"🟢",
+
+    name:"Verde",
+
+    title:"Creatividad",
+
+    color:"#16a34a",
+
+    desc:
+    "Generamos alternativas e ideas nuevas.",
+
+    question:
+    "¿Qué ideas creativas o soluciones diferentes podríamos proponer?"
+},
+
+
+{
+    id:"blue",
+
+    icon:"🔵",
+
+    name:"Azul",
+
+    title:"Organización y acción",
+
+    color:"#2563eb",
+
+    desc:
+    "Ordenamos las ideas y definimos el siguiente paso.",
+
+    question:
+    "¿Qué deberíamos hacer primero y qué acción concreta podemos emprender?"
+}
+
+];
+
+
+
+/* =========================================================
+   SITUACIÓN QUE SE ANALIZARÁ
+========================================================= */
+
+const situation = `
+
+En una institución se busca fortalecer la igualdad
+de género y construir espacios laborales libres de
+discriminación y violencia.
+
+El reto es identificar acciones que puedan generar
+cambios positivos y sostenibles.
+
+`;
+
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let answers = {};
+
+let current = 0;
+
+let seconds = 120;
+
+let timerInterval = null;
+
+
+
+/* =========================================================
+   CAMBIAR DE PANTALLA
+========================================================= */
+
+function show(id){
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(
+            screen =>
+            screen.classList.remove("active")
+        );
+
+    document
+        .getElementById(id)
+        .classList.add("active");
+}
+
+
+
+/* =========================================================
+   COMENZAR
+========================================================= */
+
+function startActivity(){
+
+    answers = {};
+
+    current = 0;
+
+    renderSelection();
+
+    show("selection");
+
+}
+
+
+
+/* =========================================================
+   MOSTRAR SOMBREROS
+========================================================= */
+
+function renderSelection(){
+
+    const grid =
+        document.getElementById("hatGrid");
+
+
+    grid.innerHTML = hats.map(
+
+        (h,i) => `
+
+        <button
+
+            class="hat
+            ${answers[h.id] !== undefined
+                ? "done"
+                : ""}"
+
+            style="
+                --hat:${h.color}
+            "
+
+            onclick="
+                openHat(${i})
+            "
+        >
+
+            <div class="icon">
+                ${h.icon}
+            </div>
+
+            <h3>
+                ${h.name}
+                ·
+                ${h.title}
+            </h3>
+
+            <p>
+                ${h.desc}
+            </p>
+
+        </button>
+
+        `
+
+    ).join("");
+
+}
+
+
+
+/* =========================================================
+   ABRIR SOMBRERO
+========================================================= */
+
+function openHat(index){
+
+    current = index;
+
+    renderActivity();
+
+    show("activity");
+
+    startTimer();
+
+}
+
+
+
+/* =========================================================
+   MOSTRAR ACTIVIDAD
+========================================================= */
+
+function renderActivity(){
+
+    const h =
+        hats[current];
+
+
+    document
+        .documentElement
+        .style
+        .setProperty(
+            "--hat",
+            h.color
+        );
+
+
+    document
+        .getElementById("stepLabel")
+        .textContent =
+        `Sombrero ${current+1} de 6 · ${h.name}`;
+
+
+    document
+        .getElementById("progress")
+        .style
+        .width =
+        `${((current+1)/6)*100}%`;
+
+
+    document
+        .getElementById("activityCard")
+        .innerHTML = `
+
+        <div
+            class="activity-head"
+            style="
+                background:${h.color}
+            "
+        >
+
+            <div class="hat-large">
+                ${h.icon}
+            </div>
+
+            <h2>
+                Sombrero ${h.name}:
+                ${h.title}
+            </h2>
+
+            <p>
+                ${h.desc}
+            </p>
+
+        </div>
+
+
+        <div class="activity-body">
+
+
+            <div
+                class="situation"
+            >
+
+                <strong>
+                    Situación:
+                </strong>
+
+                <br>
+
+                ${situation}
+
+            </div>
+
+
+            <div class="question">
+
+                ${h.question}
+
+            </div>
+
+
+            <textarea
+                id="answer"
+                placeholder="
+                    Escribe aquí tu reflexión...
+                "
+            >${answers[h.id] || ""}</textarea>
+
+
+            <div class="actions">
+
+
+                <button
+                    class="secondary"
+                    onclick="saveAndSelection()"
+                >
+                    ← Ver sombreros
+                </button>
+
+
+                <button
+                    class="primary"
+                    onclick="saveAndNext()"
+                >
+
+                    ${
+                        current === 5
+                        ? "Ver conclusiones →"
+                        : "Guardar y continuar →"
+                    }
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+        `;
+
+}
+
+
+
+/* =========================================================
+   TEMPORIZADOR
+========================================================= */
+
+function startTimer(){
+
+    clearInterval(timerInterval);
+
+    seconds = 120;
+
+    updateTimer();
+
+
+    timerInterval =
+        setInterval(
+
+            () => {
+
+                seconds--;
+
+                updateTimer();
+
+
+                if(seconds <= 0){
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+                    document
+                        .getElementById("timer")
+                        .textContent =
+                        "00:00";
+
+                }
+
+            },
+
+            1000
+
+        );
+
+}
+
+
+
+/* =========================================================
+   ACTUALIZAR TEMPORIZADOR
+========================================================= */
+
+function updateTimer(){
+
+    const minutes =
+        String(
+            Math.floor(seconds / 60)
+        ).padStart(2,"0");
+
+
+    const secs =
+        String(
+            seconds % 60
+        ).padStart(2,"0");
+
+
+    document
+        .getElementById("timer")
+        .textContent =
+        `${minutes}:${secs}`;
+
+}
+
+
+
+/* =========================================================
+   GUARDAR RESPUESTA
+========================================================= */
+
+function saveAnswer(){
+
+    const field =
+        document.getElementById("answer");
+
+
+    if(field){
+
+        answers[
+            hats[current].id
+        ] =
+        field.value.trim();
+
+    }
+
+}
+
+
+
+/* =========================================================
+   VOLVER A SELECCIÓN
+========================================================= */
+
+function saveAndSelection(){
+
+    saveAnswer();
+
+    clearInterval(
+        timerInterval
+    );
+
+    renderSelection();
+
+    show("selection");
+
+}
+
+
+
+/* =========================================================
+   SIGUIENTE SOMBRERO
+========================================================= */
+
+function saveAndNext(){
+
+    saveAnswer();
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    if(current < 5){
+
+        current++;
+
+        renderActivity();
+
+        startTimer();
+
+    }
+
+    else{
+
+        renderFinal();
+
+        show("final");
+
+    }
+
+}
+
+
+
+/* =========================================================
+   MOSTRAR CONCLUSIONES
+========================================================= */
+
+function renderFinal(){
+
+    document
+        .getElementById("summaryGrid")
+        .innerHTML =
+
+        hats.map(
+
+            h => `
+
+            <div
+
+                class="summary"
+
+                style="
+                    --hat:${h.color};
+                    border-left-color:${h.color}
+                "
+            >
+
+                <h3>
+
+                    ${h.icon}
+
+                    ${h.name}
+
+                    ·
+
+                    ${h.title}
+
+                </h3>
+
+
+                <p>
+
+                    ${
+                        answers[h.id]
+                        ||
+                        "Sin respuesta registrada."
+                    }
+
+                </p>
+
+            </div>
+
+            `
+
+        ).join("");
+
+}
+
+
+
+/* =========================================================
+   VOLVER A SOMBREROS
+========================================================= */
+
+function goSelection(){
+
+    clearInterval(
+        timerInterval
+    );
+
+    renderSelection();
+
+    show("selection");
+
+}
+
+
+
+/* =========================================================
+   FINALIZAR
+========================================================= */
+
+function finishActivity(){
+
+    const action =
+        document
+        .getElementById("finalAction")
+        .value
+        .trim();
+
+
+    if(action){
+
+        answers.blue = action;
+
+    }
+
+
+    alert(
+        "¡Actividad completada! Gracias por participar."
+    );
+
+}
+
+
+
+/* =========================================================
+   REINICIAR
+========================================================= */
+
+function resetActivity(){
+
+    clearInterval(
+        timerInterval
+    );
+
+    answers = {};
+
+    current = 0;
+
+    seconds = 120;
+
+    show("start");
+
+}
+
+</script>
+
+</body>
+</html>
